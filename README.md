@@ -26,3 +26,16 @@ On the other hand, if the device has moved and now there is a need to move the c
 So based on this information, now the tunnel is established and hence the device is ready to send the uplink data. One thing to remember here is that it is the RAN that knows the UPF tunnel endpoint, not vice versa. 
 
 In Step 5, the AMF will notify the SMF about the RAN tunnel endpoint and SMF uses this to update the UPF, about the RAN tunnel endpoint identifier. Meanwhile, the PCF might be interested to know if there is a change in the UE location. So the SMF update the PCF whatever the current location of the UE. Now the UPF knows where to find the RAN endpoint. It can make the connection and the downlink data can also be sent.
+
+
+**Network Triggered Service Request**
+
+It is used when there is downlink data to be sent to the device. In step 1, there is downlink data at the UPF but the UPF does not know where to send the data because there is no connection to the device. Then the UPF buffers the data and notifies the SMF that there is data for the device to be received. 
+
+In step 2, the SMF contacts the AMF that there is data corresponding to this PDU session from this kind of data network that needs to be reached to the device. 
+
+In step 3, the AMF notifies by saying that go and find this device. Because in this case, we have two possible options. Either we don't know where the device is or we know the device if it is in connected mode. 
+
+First, let us assume that the device is in idle mode, then the network does not exactly know where it is. So the network has to do paging. The RAN does the page and when the device received the paging message, it sends the service request back to the network. This is the service request triggered, which is the same as the UE trigger service request. So the network trigger procedure is the network paging and asking the device to start by UE triggered procedure.
+
+Now in another scenario, the device is in connected mode. So the network knows where to contact the device. In this case, the RAN tunnel endpoint identifier needs to be conveyed back to the UPF. Similar to steps 3 to 4 in the UE service request procedure, the RAN tunnel end-point identifier is followed by the AMF to SMF and SMF configured the UPF with the correct information about, what is the RAN tunnel endpoint. Once the information is available then the downlink data can be sent from the UPF to the RAN. 
